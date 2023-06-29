@@ -1,10 +1,7 @@
 from selenium import webdriver
 import numpy as np
 
-
-path_webdriver = '/mnt/0165652C522E8ECA/ProjetosDeProgramacao/AB-testing/PA-james/pa_bayesion/geckodriver'
 driver = webdriver.Chrome()
-
 
 driver.get('http://127.0.0.1:5000/home')
 
