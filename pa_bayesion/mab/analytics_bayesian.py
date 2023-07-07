@@ -79,7 +79,7 @@ def bayesian_inference(data):
     return proba_b_better_a, expected_loss_a, expected_loss_b
 
 def animate(i):
-    data = pd.read_csv('data_experiment.csv')
+    data = pd.read_csv('dataset/data_experiment.csv')
 
     #dtypes
     data['click'] = data['click'].astype(int)
