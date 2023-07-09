@@ -1,12 +1,9 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
-
-#import matplotlib
-#matplotlib.use('TkAgg')
-#apt-get install python3-tk
 from scipy import stats
 from matplotlib import pyplot as plt
-from matplotlib.animation import FuncAnimation
+import time
 
 def bayesian_inference(data):
     N_mc=1000
@@ -78,7 +75,7 @@ def bayesian_inference(data):
 
     return proba_b_better_a, expected_loss_a, expected_loss_b
 
-def animate(i):
+def teste():
     data = pd.read_csv('dataset/data_experiment.csv')
 
     #dtypes
@@ -87,34 +84,37 @@ def animate(i):
 
     # pivot table
     data= data.reset_index().rename(columns={'index':'day'})
-
     data = data.pivot(index='day', columns='group', values=['click', 'visit']).fillna(0)
     data.columns = ['click_control', 'click_treatment', 'visit_control', 'visit_treatment']
     data = data.reset_index(drop=True)
 
     data['acc_visits_A'] = data['visit_control'].cumsum()
     data['acc_clicks_A'] = data['click_control'].cumsum()
-
     data['acc_visits_B'] = data['visit_treatment'].cumsum()
     data['acc_clicks_B'] = data['click_treatment'].cumsum()
 
-    
     # inference bayesian
     p, expected_loss_a, expected_loss_b = bayesian_inference(data)
 
-    x1 = np.arange(len(p))
+    chart_data = pd.DataFrame(
+        {
+            'Probabiliy B better A': p,
+            'Risk choosing A':expected_loss_a,
+            'Risk choosing B':expected_loss_b
+        }
+    )
 
+    return chart_data
 
-    plt.cla()
-    plt.plot(x1, p, label='Probabiliy B better A')
-    plt.plot(x1, expected_loss_a, label='Risk choosing A')
-    plt.plot(x1, expected_loss_b, label='Risk choosing B')
-    #plt.axis([0, len(x1), 0, 1])
+chart_data = teste()
+chart = st.line_chart(chart_data)
+max_x = 50
 
-    plt.legend(loc='upper right')
-    plt.tight_layout()
+while True:
+    max_data = len(chart_data) - max_x
+    chart_data = teste()
+    chart.line_chart(chart_data[max_data:len(chart_data)])
 
-ani = FuncAnimation(plt.gcf(), animate, interval = 1000, cache_frame_data=False)
-
-plt.tight_layout()
-plt.show()
+    time.sleep(1)
+    if max_data == (len(chart_data) - max_x):
+        break
