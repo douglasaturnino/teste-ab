@@ -34,7 +34,8 @@ class thompson_agent:
         data = pd.DataFrame(columns=['click','visit','group'],)
         
         if not os.path.exists(caminho):
-            os.mkdir(os.path.dirname(caminho))
+            if not os.path.exists(os.path.dirname(caminho)):
+                os.mkdir(os.path.dirname(caminho))
             data.to_csv(caminho,index=False)
         
         return caminho
