@@ -75,7 +75,7 @@ def bayesian_inference(data):
 
     return proba_b_better_a, expected_loss_a, expected_loss_b
 
-def teste():
+def get_chart_data():
     data = pd.read_csv('dataset/data_experiment.csv')
 
     #dtypes
@@ -106,13 +106,15 @@ def teste():
 
     return chart_data
 
-chart_data = teste()
+chart_data = get_chart_data()
 chart = st.line_chart(chart_data)
 max_x = 50
 
+time.sleep(5)
+
 while True:
     max_data = len(chart_data) - max_x
-    chart_data = teste()
+    chart_data = get_chart_data()
     chart.line_chart(chart_data[max_data:len(chart_data)])
 
     time.sleep(1)
