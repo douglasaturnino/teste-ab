@@ -1,79 +1,64 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from scipy import stats
-from matplotlib import pyplot as plt
+from scipy.stats import beta, norm
 import time
 
-def bayesian_inference(data):
-    N_mc=1000
+def bayesian_inference(acc_clicks_A, acc_clicks_B, acc_visits_A, acc_visits_B):
+    qtd_amostas = 1000
+    
+    # Mean and Variance
+    media_a, variancia_a = media_variance(acc_clicks_A, acc_visits_A)
+    media_b, variancia_b = media_variance(acc_clicks_B, acc_visits_B)
+    
+    # Amostras da distribuição Normal
+    distruibuicao_normal_a = amostra_normal(media_a, variancia_a, qtd_amostas)
+    distruibuicao_normal_b = amostra_normal(media_b, variancia_b, qtd_amostas)
+    
+    # Beta Probability Density Function of page
+    probabilidade_beta_a = probabilidade_beta(distruibuicao_normal_a, acc_clicks_A, acc_visits_A)
+    probabilidade_beta_b = probabilidade_beta(distruibuicao_normal_b, acc_clicks_B, acc_visits_B)
+    
+    # Normal Probability Density Function of page
+    probabilidade_normal_a = probabilidade_normal(distruibuicao_normal_a, media_a, variancia_a)
+    probabilidade_normal_b = probabilidade_normal(distruibuicao_normal_b, media_b, variancia_b)
 
-    proba_b_better_a = []
-    expected_loss_a = []
-    expected_loss_b = []
+    # beta / Normal
+    constante_normalizacao = (probabilidade_beta_a * probabilidade_beta_b) / (probabilidade_normal_a * probabilidade_normal_b)
 
-    for day in range(len(data)):
-        u_a, var_a = stats.beta.stats(a = 1 + data.loc[day, 'acc_clicks_A'],
-                                      b = 1 + (data.loc[day, 'acc_visits_A']  - data.loc[day, 'acc_clicks_A']),
-                                      moments='mv') 
+    # Somente valores onde o B é maior do que A
+    valores_maior_b = constante_normalizacao[distruibuicao_normal_b >= distruibuicao_normal_a]
 
-        u_b, var_b = stats.beta.stats(a = 1 + data.loc[day, 'acc_clicks_B'],
-                                      b = 1 + (data.loc[day, 'acc_visits_B'] - data.loc[day, 'acc_clicks_B']),
-                                      moments='mv')
+    # Propabilidade de B ser melhor do que A
+    probabilidade = (1 / qtd_amostas) * np.sum(valores_maior_b)
 
-        # Amostras da distribuição Normal A
-        x_a = np.random.normal(loc = u_a,
-                               scale = 1.25*np.sqrt(var_a),
-                               size = N_mc )
+    # Erro ao assumir B melhor do que A
+    expected_loss_A = (1 / qtd_amostas) * np.sum(((distruibuicao_normal_b - distruibuicao_normal_a) * constante_normalizacao )[distruibuicao_normal_b >= distruibuicao_normal_a])
+    expected_loss_B = (1 / qtd_amostas) * np.sum(((distruibuicao_normal_a - distruibuicao_normal_b) * constante_normalizacao )[distruibuicao_normal_a >= distruibuicao_normal_b])
 
-        # Amostras da distribuição Normal B
-        x_b = np.random.normal(loc = u_b,
-                               scale = 1.25*np.sqrt(var_b),
-                               size = N_mc )
+    return [probabilidade, expected_loss_A, expected_loss_B]
 
-        # Beta distribuition fuction of page A
-        fa = stats.beta.pdf(x_a,
-                            a = 1 + data.loc[day, 'acc_clicks_A'],
-                            b = 1 + (data.loc[day, 'acc_visits_A']  - data.loc[day, 'acc_clicks_A'])
-        )
-        # Beta distribuition fuction of page B
+def media_variance(acc_clicks, acc_visits):
+    media, variance = beta.stats(a = 1 + acc_clicks,  
+                                 b = 1 + acc_visits - acc_clicks, 
+                                 moments = 'mv')
+    
+    return media, variance
 
-        fb = stats.beta.pdf(x_b,
-                            a = 1 + data.loc[day, 'acc_clicks_B'],
-                            b = 1 + (data.loc[day, 'acc_visits_B']  - data.loc[day, 'acc_clicks_B'])
-        )
+def amostra_normal(media, variancia, qtd_amostas):
+    return np.random.normal(loc = media,
+                            scale = 1.25*np.sqrt(variancia),
+                            size = qtd_amostas )
 
-        # Normal distribution function of page A
-        ga = stats.norm.pdf(x_a,
-                            loc = u_a,
-                            scale = 1.25*np.sqrt(var_a)
-                            )
+def probabilidade_beta(distruibuicao_normal, acc_clicks, acc_visits):
+    return beta.pdf(distruibuicao_normal,
+                    a = 1 + acc_clicks,
+                    b = 1 + acc_visits - acc_clicks)
 
-        # Normal distribution function of page A
-        gb = stats.norm.pdf(x_b,
-                            loc = u_b,
-                            scale = 1.25*np.sqrt(var_b)
-                            )
-
-        # beta / Normal
-        y = (fa*fb) / (ga*gb)
-
-        # Somente valores onde o B é maior do que A
-        yb = y[x_b >= x_a]
-
-        # Propabilidade de B ser melhor do que A
-        p = (1 / N_mc) * np.sum(yb)
-
-        # Erro ao assumir B melhor do que A
-        expected_loss_A = (1 / N_mc) * np.sum(((x_b - x_a)*y )[x_b >= x_a])
-        expected_loss_B = (1 / N_mc) * np.sum(((x_a - x_b)*y )[x_a >= x_b])
-
-        proba_b_better_a.append(p)
-        expected_loss_a.append(expected_loss_A)
-        expected_loss_b.append(expected_loss_B)
-
-
-    return proba_b_better_a, expected_loss_a, expected_loss_b
+def probabilidade_normal(distruibuicao_normal, media, variancia):
+    return norm.pdf(distruibuicao_normal,
+                    loc = media,
+                    scale = 1.25*np.sqrt(variancia))
 
 def get_chart_data():
     data = pd.read_csv('dataset/data_experiment.csv')
@@ -94,27 +79,33 @@ def get_chart_data():
     data['acc_clicks_B'] = data['click_treatment'].cumsum()
 
     # inference bayesian
-    p, expected_loss_a, expected_loss_b = bayesian_inference(data)
+    bayesian = pd.DataFrame()
+    
+    colunas = ['Probabiliy B better A','Risk choosing A', 'Risk choosing B']
+                     
+    bayesian[colunas] = pd.DataFrame(
+        np.row_stack(
+            np.vectorize(
+                bayesian_inference, otypes=['O'])
+                (data['acc_clicks_A'], 
+                data['acc_clicks_B'], 
+                data['acc_visits_A'], 
+                data['acc_visits_B'])))
 
-    chart_data = pd.DataFrame(
-        {
-            'Probabiliy B better A': p,
-            'Risk choosing A':expected_loss_a,
-            'Risk choosing B':expected_loss_b
-        }
-    )
-
-    return chart_data
+    return bayesian
 
 chart_data = get_chart_data()
+
+st.write('Probabilidade de B melhor que A')
 chart = st.line_chart(chart_data)
+
 max_x = 50
 
 time.sleep(5)
 
 while True:
-    max_data = len(chart_data) - max_x
     chart_data = get_chart_data()
+    max_data = len(chart_data) - max_x
     chart.line_chart(chart_data[max_data:len(chart_data)])
 
     time.sleep(1)
