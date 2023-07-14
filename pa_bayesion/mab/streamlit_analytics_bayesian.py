@@ -104,8 +104,8 @@ max_x = 50
 time.sleep(5)
 
 while True:
-    chart_data = get_chart_data()
     max_data = len(chart_data) - max_x
+    chart_data = get_chart_data()
     chart.line_chart(chart_data[max_data:len(chart_data)])
 
     time.sleep(1)
