@@ -27,6 +27,7 @@ RUN addgroup --system --gid 1001 appgroup \
     && adduser --system --uid 1001 --gid 1001 --no-create-home appuser \
     # Upgrade the package index and install security upgrades
     && apt-get update \
+    && apt-get upgrade -y \
     && apt-get -y install gcc make wget curl gnupg gnupg2 gnupg1\
     && apt-get install -yqq unzip \
     # install google chrome
@@ -47,7 +48,5 @@ RUN addgroup --system --gid 1001 appgroup \
 COPY visitor.py visitor.py
 # Set the user to run the application
 USER appuser
-
-EXPOSE 8080
 
 ENTRYPOINT ["python", "visitor.py"]

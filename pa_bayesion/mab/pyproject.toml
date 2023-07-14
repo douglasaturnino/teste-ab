@@ -15,6 +15,16 @@ flask = "^2.3.2"
 streamlit = "^1.24.1"
 scipy = "^1.11.1"
 
+
+[tool.poetry.group.webscraper.dependencies]
+selenium = "^4.10.0"
+numpy = "^1.25.1"
+
+
+[tool.poetry.group.web.dependencies]
+flask = "^2.3.2"
+pandas = "^2.0.3"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

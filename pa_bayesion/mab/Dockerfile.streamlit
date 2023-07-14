@@ -13,7 +13,6 @@ WORKDIR /app
 COPY ./pyproject.toml ./poetry.lock ./
 
 RUN pip install "poetry==$POETRY_VERSION" \
-    && poetry install --no-root --no-ansi --no-interaction \
     && poetry export -f requirements.txt -o requirements.txt --only streamlit
 
 
@@ -39,7 +38,6 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/*
 
 COPY streamlit_analytics_bayesian.py streamlit_analytics_bayesian.py
-#RUN chown -R appuser:appuser /dataset
 
 EXPOSE 8501
 

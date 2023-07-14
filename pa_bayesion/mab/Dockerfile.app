@@ -13,8 +13,7 @@ WORKDIR /app
 COPY ./pyproject.toml ./poetry.lock ./
 
 RUN pip install "poetry==$POETRY_VERSION" \
-    && poetry install --no-root --no-ansi --no-interaction \
-    && poetry export -f requirements.txt -o requirements.txt
+    && poetry export -f requirements.txt -o requirements.txt --only web
 
 
 ### Final stage
@@ -47,6 +46,3 @@ COPY app.py app.py
 EXPOSE 5000
 
 ENTRYPOINT ["python", "app.py"]
-
-# Set the user to run the application
-#USER appuser
