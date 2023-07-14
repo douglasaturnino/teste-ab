@@ -2,11 +2,15 @@ from selenium import webdriver
 import numpy as np
 import time
 
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
 
-driver.get('http://127.0.0.1:5000/home')
+driver = webdriver.Chrome(options=options)
 
-clicks = 10000
+driver.get('http://mab-web-1:5000/home')
+
+clicks = 1000
 
 for click in range(clicks):
     button_color = driver.find_element('name', 'forwardbtn').get_attribute('value')
