@@ -1,0 +1,33 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - dataset:/app/dataset
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - dataset:/app/dataset
+    depends_on:
+      - web
+
+  webscraper:
+    build:
+      context: .
+      dockerfile: Dockerfile.webscraper
+    volumes:
+      - dataset:/app/dataset
+    depends_on:
+      - web
+
+volumes:
+  dataset:
