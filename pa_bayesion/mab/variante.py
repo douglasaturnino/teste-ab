@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+from infra.repository.experimento_repository import ExperimentoRepository
+
 
 class variante(object):
     def __init__(self, visit, click, group):
@@ -8,20 +10,13 @@ class variante(object):
         self.group = group
 
     def salvar_experiment(self):
-        home = os.path.dirname(os.path.abspath(__file__))
-        caminho = os.path.join(home, 'dataset', 'data_experiment.csv')
+       repo = ExperimentoRepository()
+       repo.insert(self.click, self.visit, self.group)
 
-        data = pd.DataFrame(
-            {
-                'click': self.click,
-                'visit': self.visit,
-                'group': self.group
+    def load_data():
+        repo = ExperimentoRepository()
+        return repo.select()
 
-            },index=[0]
-        )
-        data.to_csv(caminho, mode='a', index=False, header=False)
-                
-        return caminho            
 if __name__ == '__main__':
     caminho = variante(1,1, 'red')
 

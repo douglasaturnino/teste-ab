@@ -1,8 +1,9 @@
+import time
+import requests 
 import streamlit as st
 import pandas as pd
 import numpy as np
 from scipy.stats import beta, norm
-import time
 
 def bayesian_inference(acc_clicks_A, acc_clicks_B, acc_visits_A, acc_visits_B):
     qtd_amostas = 1000
@@ -61,7 +62,7 @@ def probabilidade_normal(distruibuicao_normal, media, variancia):
                     scale = 1.25*np.sqrt(variancia))
 
 def get_chart_data():
-    data = pd.read_csv('dataset/data_experiment.csv')
+    data = load_data()
 
     #dtypes
     data['click'] = data['click'].astype(int)
@@ -94,6 +95,14 @@ def get_chart_data():
 
     return bayesian
 
+def load_data():
+    url = "http://mab-web-1:5000/dados"
+    r = requests.get(url)
+    
+    data = pd.DataFrame(r.json(), columns=r.json()[0].keys())
+    return data
+
+
 chart_data = get_chart_data()
 
 st.write('Probabilidade de B melhor que A')
@@ -108,6 +117,5 @@ while True:
     chart_data = get_chart_data()
     chart.line_chart(chart_data[max_data:len(chart_data)])
 
-    time.sleep(1)
     if max_data == (len(chart_data) - max_x):
         break

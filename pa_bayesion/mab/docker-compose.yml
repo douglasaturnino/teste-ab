@@ -5,9 +5,12 @@ services:
       dockerfile: Dockerfile.app
     ports:
       - "5000:5000"
-
     volumes:
       - dataset:/app/dataset
+    environment:
+      DATABASE_URL: /run/secrets/db_url
+    secrets:
+      - db_url
 
   streamlit:
     build:
@@ -29,5 +32,11 @@ services:
     depends_on:
       - web
 
+
+
 volumes:
   dataset:
+
+secrets:
+  db_url:
+    file: db_url.txt

@@ -131,6 +131,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+db_url.txt
 
 # Spyder project settings
 .spyderproject
