@@ -5,12 +5,8 @@ services:
       dockerfile: Dockerfile.app
     ports:
       - "5000:5000"
-    volumes:
-      - dataset:/app/dataset
-    environment:
-      DATABASE_URL: /run/secrets/db_url
-    secrets:
-      - db_url
+    env_file:
+      - ./.env
 
   streamlit:
     build:
@@ -18,8 +14,6 @@ services:
       dockerfile: Dockerfile.streamlit
     ports:
       - "8501:8501"
-    volumes:
-      - dataset:/app/dataset
     depends_on:
       - web
 
@@ -27,16 +21,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.webscraper
-    volumes:
-      - dataset:/app/dataset
     depends_on:
       - web
-
-
-
-volumes:
-  dataset:
-
-secrets:
-  db_url:
-    file: db_url.txt

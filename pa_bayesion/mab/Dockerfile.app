@@ -43,8 +43,6 @@ COPY thompson_agent.py thompson_agent.py
 COPY app.py app.py
 COPY ./infra/ infra/
 
-#RUN chown -R appuser:appuser /dataset
-
 EXPOSE 5000
 
 ENTRYPOINT ["python", "app.py"]
