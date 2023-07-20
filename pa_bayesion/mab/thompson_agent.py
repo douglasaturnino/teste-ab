@@ -8,7 +8,8 @@ class thompson_agent:
     def get_page():
         data = variante.load_data()
         data = thompson_agent.convert_to_dataFrame(data)
-        if data.empty:
+        
+        if thompson_agent.empty_or_values_not_exists(data):
             return thompson_agent.random_page()
 
         data["no_click"] = data["visit"] - data["click"]
@@ -35,6 +36,10 @@ class thompson_agent:
         df = pd.DataFrame(data, columns=columns)
         return df
 
+    def empty_or_values_not_exists(data):
+        values_exists = data.isin({'group':['control', 'treatment']}).any().any()
+
+        return (data.empty | (not values_exists))
 
 if __name__ == "__main__":
     pass
