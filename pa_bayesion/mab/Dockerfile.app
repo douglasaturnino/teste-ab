@@ -45,4 +45,4 @@ COPY ./infra/ infra/
 
 EXPOSE 5000
 
-ENTRYPOINT ["python", "app.py"]
+ENTRYPOINT ["gunicorn","--bind", "0.0.0.0:5000", "app:app"]
