@@ -64,6 +64,8 @@ def probabilidade_normal(distruibuicao_normal, media, variancia):
 def get_chart_data():
     data = load_data()
 
+    data = values_not_exists(data)
+
     #dtypes
     data['click'] = data['click'].astype(int)
     data['visit'] = data['visit'].astype(int)
@@ -82,7 +84,7 @@ def get_chart_data():
     # inference bayesian
     bayesian = pd.DataFrame()
     
-    colunas = ['Probabiliy B better A','Risk choosing A', 'Risk choosing B']
+    colunas = ['Probabilidade de B ser melhor que A','Risco de Escolher A', 'Risco de Escolher B']
                      
     bayesian[colunas] = pd.DataFrame(
         np.row_stack(
@@ -102,20 +104,36 @@ def load_data():
     data = pd.DataFrame(r.json(), columns=r.json()[0].keys())
     return data
 
+def values_not_exists(data):
+    controle = ~data.isin({'group':['control']}).any().any()
+    treatment = ~data.isin({'group':['treatment']}).any().any()
 
-chart_data = get_chart_data()
+    if treatment:
+        df = pd.DataFrame({'click': [0], 'visit': [0], 'group':['treatment']})
+        return pd.concat([data, df])
 
-st.write('Probabilidade de B melhor que A')
-chart = st.line_chart(chart_data)
+    if controle:
+        df = pd.DataFrame({'click': 0, 'visit': 0, 'group':'control'})
+        return pd.concat({data, df})
+    
+    return data
 
+chart_data = pd.DataFrame()
+mensagem = st.title('')
+chart = st.line_chart()
 max_x = 50
-
-time.sleep(5)
 
 while True:
     max_data = len(chart_data) - max_x
-    chart_data = get_chart_data()
-    chart.line_chart(chart_data[max_data:len(chart_data)])
 
+    try:
+        chart_data = get_chart_data()
+        mensagem.title('Probabilidade de B ser melhor que A')
+    except IndexError:
+        mensagem.title('Não existe valores para gerar o grafico')
+        time.sleep(10)
+
+    chart.line_chart(chart_data[max_data:len(chart_data)])
+    time.sleep(1)
     if max_data == (len(chart_data) - max_x):
         break
