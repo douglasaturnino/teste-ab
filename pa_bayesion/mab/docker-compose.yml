@@ -7,6 +7,8 @@ services:
       - "5000:5000"
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db/postgres
+    depends_on:
+      - db
 
   streamlit:
     build:
