@@ -16,8 +16,3 @@ class variante(object):
     def load_data():
         repo = ExperimentoRepository()
         return repo.select()
-
-if __name__ == '__main__':
-    caminho = variante(1,1, 'red')
-
-    caminho.salvar_experiment()

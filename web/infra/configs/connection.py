@@ -10,7 +10,7 @@ class DBConnectionHandler:
         dotenv_path = Path('/etc/secrets/.env')
         load_dotenv(dotenv_path=dotenv_path)
 
-        url =os.getenv('DATABASE_URL')
+        url = os.getenv('DATABASE_URL')
         self.__connection_string = url
         self.__engine = self.__create_database_engine()
         self.session = None

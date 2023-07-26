@@ -1,3 +1,4 @@
+import os
 import time
 import requests 
 import streamlit as st
@@ -98,7 +99,7 @@ def get_chart_data():
     return bayesian
 
 def load_data():
-    url = "http://mab-web-1:5000/dados"
+    url = os.getenv('WEB_URL')
     r = requests.get(url)
     
     data = pd.DataFrame(r.json(), columns=r.json()[0].keys())

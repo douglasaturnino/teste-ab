@@ -1,14 +1,16 @@
-from selenium import webdriver
-import numpy as np
+import os
 import time
+import numpy as np
+from selenium import webdriver
+
 
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 
 driver = webdriver.Chrome(options=options)
-
-driver.get('http://mab-web-1:5000/home')
+url = os.getenv('WEB_URL')
+driver.get(url)
 
 clicks = 1000
 

@@ -10,7 +10,7 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     POETRY_VERSION=1.5.0
 
 WORKDIR /app
-COPY ./pyproject.toml ./poetry.lock ./
+COPY ./pyproject.toml ./poetry.lock /app/
 
 RUN pip install "poetry==$POETRY_VERSION" \
     && poetry export -f requirements.txt -o requirements.txt --only web
@@ -37,12 +37,10 @@ RUN set -ex \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./templates/ templates/
-COPY variante.py variante.py
-COPY thompson_agent.py thompson_agent.py
-COPY app.py app.py
-COPY ./infra/ infra/
+COPY ./web/ /app/
 
 EXPOSE 5000
+# Set the user to run the application
+USER appuser
 
 ENTRYPOINT ["gunicorn","--bind", "0.0.0.0:5000", "app:app"]

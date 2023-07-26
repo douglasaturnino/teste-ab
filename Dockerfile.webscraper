@@ -47,7 +47,7 @@ RUN set -ex \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY visitor.py visitor.py
+COPY ./webscraper /app/
 # Set the user to run the application
 USER appuser
 

@@ -37,7 +37,7 @@ RUN set -ex \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY streamlit_analytics_bayesian.py streamlit_analytics_bayesian.py
+COPY ./streamlit/ /app/
 
 EXPOSE 8501
 # Set the user to run the application
