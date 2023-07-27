@@ -1,15 +1,11 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
 from pathlib import Path
 
 
 class DBConnectionHandler:
     def __init__(self):
-        dotenv_path = Path('/etc/secrets/.env')
-        load_dotenv(dotenv_path=dotenv_path)
-
         url = os.getenv('DATABASE_URL')
         self.__connection_string = url
         self.__engine = self.__create_database_engine()
