@@ -19,6 +19,7 @@ scipy = "^1.11.1"
 [tool.poetry.group.webscraper.dependencies]
 selenium = "^4.10.0"
 numpy = "^1.25.1"
+flask = "^2.3.2"
 
 
 [tool.poetry.group.web.dependencies]
