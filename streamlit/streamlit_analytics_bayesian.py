@@ -100,6 +100,7 @@ def get_chart_data():
 
 def load_data():
     url = os.getenv('WEB_URL')
+    url = url + '/dados'
     r = requests.get(url)
     
     data = pd.DataFrame(r.json(), columns=r.json()[0].keys())
@@ -114,7 +115,7 @@ def values_not_exists(data):
         return pd.concat([data, df])
 
     if controle:
-        df = pd.DataFrame({'click': 0, 'visit': 0, 'group':'control'})
+        df = pd.DataFrame({'click': [0], 'visit': [0], 'group':'control'})
         return pd.concat({data, df})
     
     return data
@@ -127,16 +128,18 @@ max_x = 50
 st.sidebar.title('Opções')
 st.sidebar.write('Click no botão começar para iniciar o experimento:')
 if st.sidebar.button('Começar'):
-    url = "http://webscraper:5001/"
+    url = os.getenv('WEBSCRAPER_URL')
     r = requests.get(url)
-    
+    time.sleep(1)
 
 st.sidebar.write('Click no botão para apagar o experimento :')
 if st.sidebar.button('Apagar'):
-    url = "http://web:5000/apagar"
+
+    url = os.getenv('WEB_URL')
+    url = url + '/apagar'
     r = requests.get(url)
     st.sidebar.write(r.text)
-    time.sleep(1)
+    time.sleep(1.5)
 
 while True:
     max_data = len(chart_data) - max_x

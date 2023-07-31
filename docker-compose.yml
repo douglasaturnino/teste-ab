@@ -19,7 +19,8 @@ services:
     ports:
       - "8501:8501"
     environment:
-      WEB_URL: http://web:5000/dados
+      WEB_URL: http://web:5000
+      WEBSCRAPER_URL: http://webscraper:5001
     depends_on:
       - web
 
