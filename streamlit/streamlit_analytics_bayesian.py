@@ -152,5 +152,4 @@ while True:
 
     chart.line_chart(chart_data[max_data:len(chart_data)])
     time.sleep(1)
-    if max_data == (len(chart_data) - max_x):
-        break
+    
