@@ -124,6 +124,20 @@ mensagem = st.title('')
 chart = st.line_chart()
 max_x = 50
 
+st.sidebar.title('Opções')
+st.sidebar.write('Click no botão começar para iniciar o experimento:')
+if st.sidebar.button('Começar'):
+    url = "http://webscraper:5001/"
+    r = requests.get(url)
+    
+
+st.sidebar.write('Click no botão para apagar o experimento :')
+if st.sidebar.button('Apagar'):
+    url = "http://web:5000/apagar"
+    r = requests.get(url)
+    st.sidebar.write(r.text)
+    time.sleep(1)
+
 while True:
     max_data = len(chart_data) - max_x
 
@@ -132,7 +146,6 @@ while True:
         mensagem.title('Probabilidade de B ser melhor que A')
     except IndexError:
         mensagem.title('Não existe valores para gerar o grafico')
-        time.sleep(10)
 
     chart.line_chart(chart_data[max_data:len(chart_data)])
     time.sleep(1)

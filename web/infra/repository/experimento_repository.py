@@ -11,5 +11,22 @@ class ExperimentoRepository:
     def insert(self, click, visit, grupo):
         with DBConnectionHandler() as db:
             data_insert = Experimento(click=click, visit=visit, grupo=grupo)
-            db.session.add(data_insert)
-            db.session.commit()
+            try:
+                db.session.add(data_insert)
+            except:
+                session.rollback()
+                raise
+            else:
+                db.session.commit()
+
+    def delete(self):
+        with DBConnectionHandler() as db:
+            try:
+                data = db.session.query(Experimento).delete()
+            except:
+                session.rollback()
+                raise
+            else:
+                db.session.commit()
+
+            return data

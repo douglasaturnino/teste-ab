@@ -56,5 +56,10 @@ def dados():
     data = json.dumps(data.to_dict(orient="records"))
     return data
 
+@app.route('/apagar', methods=['GET'])
+def apagar():
+    data = variante.delete_experiment()
+    return f"Foi deletado {data} registros"
+
 if __name__ == '__main__':
     app.run()

@@ -16,3 +16,7 @@ class variante(object):
     def load_data():
         repo = ExperimentoRepository()
         return repo.select()
+
+    def delete_experiment():
+        repo = ExperimentoRepository()
+        return repo.delete()
