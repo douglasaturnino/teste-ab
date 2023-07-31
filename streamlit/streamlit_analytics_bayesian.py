@@ -116,7 +116,7 @@ def values_not_exists(data):
 
     if controle:
         df = pd.DataFrame({'click': [0], 'visit': [0], 'group':'control'})
-        return pd.concat({data, df})
+        return pd.concat([data, df])
     
     return data
 
