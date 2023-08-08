@@ -21,6 +21,7 @@ selenium = "^4.10.0"
 numpy = "^1.25.1"
 flask = "^2.3.2"
 gunicorn = "^21.2.0"
+webdriver-manager = "^4.0.0"
 
 
 [tool.poetry.group.web.dependencies]

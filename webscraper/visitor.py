@@ -2,6 +2,9 @@ import os
 import time
 import numpy as np
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+
 
 class visitor:
   def visitor():
@@ -10,7 +13,8 @@ class visitor:
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
 
-    driver = webdriver.Chrome(options=options)
+    servico = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(options=options,service=servico)
     url = os.getenv('WEB_URL')
     driver.get(url)
 

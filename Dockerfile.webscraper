@@ -50,6 +50,6 @@ RUN set -ex \
 COPY ./webscraper /app/
 # Set the user to run the application
 EXPOSE 5000
-USER appuser
+#USER appuser
 
 ENTRYPOINT ["gunicorn","--bind", "0.0.0.0:5001", "webscraper:app"]
