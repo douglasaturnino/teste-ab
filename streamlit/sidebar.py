@@ -5,40 +5,29 @@ import streamlit as st
 
 class sidebar:
     def __init__(self):
-        if 'comecar' not in st.session_state:
-            st.session_state.comecar = False
-        
-        if 'apagar' not in st.session_state:
-            st.session_state.apagar = False
+        self.show_sidebar()
 
-        self.sidebar()
-
-    def sidebar(self):
+    def show_sidebar(self):
         st.title('Opções')
-        
-        def comecar():
-            st.session_state.comecar = not st.session_state.comecar
-        
-        def apagar():
-            st.session_state.apagar = not st.session_state.apagar
+
+        web_url = os.getenv('WEB_URL')
+        link = f'[Página Web]({web_url}/home)'
+        st.markdown(link, unsafe_allow_html=True)
         
         st.write('Click no botão começar para iniciar o experimento:')
-        st.button('Começar', on_click=comecar)
+        st.button('Começar', on_click=self.comecar)
         
         st.write('Click no botão para apagar o experimento :')
-        st.button('Apagar', on_click=apagar)
+        st.button('Apagar', on_click=self.apagar)
         
+    def comecar(self):
+        url = os.getenv('WEBSCRAPER_URL')
+        r = requests.get(url)
+        time.sleep(1)
         
-        if st.session_state.comecar:
-            url = os.getenv('WEBSCRAPER_URL')
-            r = requests.get(url)
-            st.session_state.comecar = False
-            time.sleep(1)
-        
-        if st.session_state.apagar:
-            url = os.getenv('WEB_URL')
-            url = url + '/apagar'
-            r = requests.get(url)
-            st.write(r.text)
-            st.session_state.apagar = False
-            time.sleep(1.5)
+    def apagar(self):
+        web_url = os.getenv('WEB_URL')
+        url = web_url + '/apagar'
+        r = requests.get(url)
+        st.write(r.text)
+        time.sleep(1.5)
