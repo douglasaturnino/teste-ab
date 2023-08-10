@@ -25,7 +25,8 @@ with st.container():
             mensagem.title('Não existe valores para gerar o grafico')
     
         chart.line_chart(chart_data)
-        time.sleep(1)
+        time.sleep(2)
+
         if max_data == len(chart_data) - max_x:
             break
     
