@@ -50,70 +50,72 @@ Variável | Definição
 
 ## 3. Planejamento da solução
 
-- 1. Escolha o método
+### 3.1. Escolha o método
 
-    1.1. Teste de hipotese estatistica
+- 1.1. Teste de hipotese estatistica
 
-        Método escolhido foi o metodo bayesiano, para estimar os parâmetros de um modelo estatístico.
+Método escolhido foi o metodo bayesiano, para estimar os parâmetros de um modelo estatístico.
 
-    1.2. MAB (Multi Armed Bandit)
+- 1.2. MAB (Multi Armed Bandit)
 
-        Séra usado o MAB para substituir o um teste A/B tradicional, pois, o MAB usa um agente para  explora as opções e faz a escolha da ação com base em uma política, essa escolha é levada para o ambiente que retorna uma recompensa sobre essa ação. 
+Séra usado o MAB para substituir o um teste A/B tradicional, pois, o MAB usa um agente para  explora as opções e faz a escolha da ação com base em uma política, essa escolha é levada para o ambiente que retorna uma recompensa sobre essa ação. 
 
-- 2. Design do Experimento
+### 3.2. Design do Experimento
  
-    2.1 Escolha da variavel
+- 3.2.1 Escolha da variavel
 
-        Definição da métrica de avaliação.
+    Definição da métrica de avaliação.
 
-    2.2 Escolha da perda máxima aceitável
+- 3.2.2 Escolha da perda máxima aceitável
 
-        Qual a perda máxima aceitavel se a página desafiante for escolhida?
+    Qual a perda máxima aceitavel se a página desafiante for escolhida?
 
-    2.3 Separação dos grupos
+- 3.2.3 Separação dos grupos
 
-        Separação do grupo de controle.
-        Separação do grupo de tratamento.
+    Separação do grupo de controle.
     
-- 3. Colentando e preparando os dados
-
-    3.1 Coleta dos dados
-
-        Crianção das flag do A/B.
-        Escolha das ferramentas de teste A/B.
+    Separação do grupo de tratamento.
     
-    3.2 Preparação dos dados
+### 3.3 Colentando e preparando os dados
 
-        Limpeza e verificação dos dados.
+- 3.3.1 Coleta dos dados
+
+    Crianção das flag do A/B.
+    Escolha das ferramentas de teste A/B.
     
-    3.3 Conversões dos grupos
+- 3.3.2 Preparação dos dados
 
-        Calculo da conversão do grupo de controle.
-        Calculo da conversão do grupo de tratamento.
+    Limpeza e verificação dos dados.
+    
+- 3.3.3 Conversões dos grupos
 
-- 4. Testando as Hipoteses
+    Calculo da conversão do grupo de controle.
+    
+    Calculo da conversão do grupo de tratamento.
 
-    4.1 Definição do método de inferência estatística
+### 3.4 Testando as Hipoteses
 
-        Definição da Posteriori (Distribuição de probabilidade)
+- 3.4.1 Definição do método de inferência estatística
+
+    Definição da Posteriori (Distribuição de probabilidade)
             Distribuição beta
         
-        Definição da Priori (Distribuição de probabilidade)
+    Definição da Priori (Distribuição de probabilidade)
             Distribuição Uniforme
     
-    4.2 Cálculo da probabilidade conjunta
+- 3.4.2 Cálculo da probabilidade conjunta
 
-        Qual a probabilidade de B ser melhor que A.
+    Qual a probabilidade de B ser melhor que A.
 
-    4.3. Cálculo do risco esperado
+- 3.4.3. Cálculo do risco esperado
 
-        Qual o risco esperado se escolhermos a página B.
+    Qual o risco esperado se escolhermos a página B.
 
-- 5. Tirando as conclusões
+### 3.5 Tirando as conclusões
 
-    Valor da probabilidade de B ser melhor do que A.
+- Valor da probabilidade de B ser melhor do que A.
 
-    Valor do risco esperado ao escolher a opção B.
+- Valor do risco esperado ao escolher a opção B.
 
 ## 4. Conclusão
 
