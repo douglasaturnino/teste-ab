@@ -31,10 +31,102 @@ Produto de dados solicitado:
 - Um painel para visualizar a conversão da página.
 
 ## 2. Premissas de negócio
+ - O painel de visualização terá duas opções de escolha para a realização do teste A/B:
 
+    Manual: Nesta opção, o visitante escolherá entrar na página de controle ou na página de tratamento de acordo com o teste.
+
+    Automático: Nesta opção, o teste será realizado automaticamente, sendo que 30% das vezes o botão "Sim" na página A (controle) será clicado, enquanto 32% das vezes o botão "Sim" na página B (tratamento) será acionado."
+
+- Também haverá a opção de excluir o experimento.
+
+As variáveis do dataset são:
+
+Variável | Definição
+------------ | -------------
+|ID | Um id unico dentro do conjunto de teste. |
+|click | Um indicador para saber em qual botão o visitante apertou. 0 = não, 1 = sim |
+|visit | Quantidade de visitantes|
+|group | Grupo que que o visitante pertence (control ou treatment) |
 
 ## 3. Planejamento da solução
 
+- 1. Escolha o método
+
+    1.1. Teste de hipotese estatistica
+
+        Método escolhido foi o metodo bayesiano, para estimar os parâmetros de um modelo estatístico.
+
+    1.2. MAB (Multi Armed Bandit)
+
+        Séra usado o MAB para substituir o um teste A/B tradicional, pois, o MAB usa um agente para  explora as opções e faz a escolha da ação com base em uma política, essa escolha é levada para o ambiente que retorna uma recompensa sobre essa ação. 
+
+- 2. Design do Experimento
+ 
+    2.1 Escolha da variavel
+
+        Definição da métrica de avaliação.
+
+    2.2 Escolha da perda máxima aceitável
+
+        Qual a perda máxima aceitavel se a página desafiante for escolhida?
+
+    2.3 Separação dos grupos
+
+        Separação do grupo de controle.
+        Separação do grupo de tratamento.
+    
+- 3. Colentando e preparando os dados
+
+    3.1 Coleta dos dados
+
+        Crianção das flag do A/B.
+        Escolha das ferramentas de teste A/B.
+    
+    3.2 Preparação dos dados
+
+        Limpeza e verificação dos dados.
+    
+    3.3 Conversões dos grupos
+
+        Calculo da conversão do grupo de controle.
+        Calculo da conversão do grupo de tratamento.
+
+- 4. Testando as Hipoteses
+
+    4.1 Definição do método de inferência estatística
+
+        Definição da Posteriori (Distribuição de probabilidade)
+            Distribuição beta
+        
+        Definição da Priori (Distribuição de probabilidade)
+            Distribuição Uniforme
+    
+    4.2 Cálculo da probabilidade conjunta
+
+        Qual a probabilidade de B ser melhor que A.
+
+    4.3. Cálculo do risco esperado
+
+        Qual o risco esperado se escolhermos a página B.
+
+- 5. Tirando as conclusões
+
+    Valor da probabilidade de B ser melhor do que A.
+
+    Valor do risco esperado ao escolher a opção B.
+
 ## 4. Conclusão
 
+O projeto envolveu a implementação de um teste A/B para determinar a eficácia de uma nova página de captura de email para a empresa Isketch. A equipe de cientistas de dados da Isketch foi responsável por planejar e executar o teste, com o objetivo de determinar se a mudança na cor do botão "Sim" na nova página resultaria em uma maior taxa de conversão.
+
+O teste foi realizado utilizando o método bayesiano para estimar os parâmetros de um modelo estatístico e o Método de Bandido Múltiplo (MAB) para substituir um teste A/B tradicional. A coleta de dados foi feita através da criação de flags A/B e a preparação dos dados envolveu a limpeza e verificação dos dados coletados.
+
+Após a coleta e preparação dos dados, as hipóteses foram testadas. A probabilidade de a página B (com o botão vermelho) ser melhor que a página A (com o botão azul) foi calculada, assim como o risco esperado de escolher a opção B.
+
+Os resultados do teste A/B serão analisados para determinar se a mudança na cor do botão resultou em uma maior taxa de conversão. Se a nova página for mais eficaz, isso pode levar a uma maior captura de emails e, consequentemente, a um aumento no número de clientes para a Isketch.
+
 ## 5. Próximos passos
+
+- Otimizar ou substituir o sql, pois, atualmente ele está tendo uma demorar nas respostas.
+
+- Transformar o teste em A/B/n, podendo ter varias páginas de tratamento.
