@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10.6,<3.13"
 pandas = "^2.0.3"
-flask = "^2.3.2"
+flask = "^3.0.0"
 
 
 [tool.poetry.group.streamlit.dependencies]
@@ -19,18 +19,18 @@ scipy = "^1.11.1"
 [tool.poetry.group.webscraper.dependencies]
 selenium = "^4.10.0"
 numpy = "^1.25.1"
-flask = "^2.3.2"
 gunicorn = "^21.2.0"
 webdriver-manager = "^4.0.0"
+flask = "^3.0.0"
 
 
 [tool.poetry.group.web.dependencies]
-flask = "^2.3.2"
 pandas = "^2.0.3"
 sqlalchemy = "^2.0.19"
 psycopg2-binary = "^2.9.6"
 python-dotenv = "^1.0.0"
 gunicorn = "^21.2.0"
+flask = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core"]
