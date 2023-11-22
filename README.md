@@ -56,9 +56,9 @@ Variável | Definição
 
 Método escolhido foi o metodo bayesiano, para estimar os parâmetros de um modelo estatístico.
 
-- 1.2. MAB (Multi Armed Bandit)
+- 1.2. Algoritmo de Thompson Sampling
 
-Séra usado o MAB para substituir o um teste A/B tradicional, pois, o MAB usa um agente para  explora as opções e faz a escolha da ação com base em uma política, essa escolha é levada para o ambiente que retorna uma recompensa sobre essa ação. 
+Séra usado o Algoritmo de Thompson Sampling para resolver o problema de multi-armed bandit(problema com varias probabilidades) para substituir o um teste A/B tradicional, pois, o MAB usa um agente para  explora as opções e faz a escolha da ação com base em uma política, essa escolha é levada para o ambiente que retorna uma recompensa sobre essa ação. 
 
 ### 3.2. Design do Experimento
  
