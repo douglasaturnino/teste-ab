@@ -1,0 +1,39 @@
+# Exported from Render on 2024-04-24T20:41:14Z
+databases:
+- name: teste-ab
+  databaseName: abtest_tlub
+  user: abtest_tlub_user
+  plan: free
+  region: oregon
+  ipAllowList:
+  - source: 0.0.0.0/0
+    description: everywhere
+  postgresMajorVersion: "16"
+
+services:
+- type: web
+  name: teste-ab
+  runtime: docker
+  repo: https://github.com/douglasaturnino/teste-ab
+  plan: free
+  envVars:
+  - key: .env
+    sync: false
+  - key: DATABASE_URL
+    sync: false
+  region: oregon
+  dockerContext: .
+  dockerfilePath: Dockerfile.app
+
+- type: web
+  name: teste-ab-webscraper
+  runtime: docker
+  repo: https://github.com/douglasaturnino/teste-ab
+  plan: free
+  envVars:
+  - key: WEB_URL
+    sync: false
+  region: oregon
+  dockerContext: .
+  dockerfilePath: Dockerfile.webscraper
+version: "1"
