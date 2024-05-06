@@ -1,8 +1,8 @@
 # Exported from Render on 2024-04-24T20:41:14Z
 databases:
 - name: teste-ab
-  databaseName: abtest_tlub
-  user: abtest_tlub_user
+  databaseName: abtest
+  user: abtest_user
   plan: free
   region: oregon
   ipAllowList:

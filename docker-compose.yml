@@ -8,6 +8,8 @@ services:
       - "5000:5000"
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db/postgres
+    networks:
+      - teste_net
     depends_on:
       - db
 
@@ -21,6 +23,8 @@ services:
     environment:
       WEB_URL: http://web:5000
       WEBSCRAPER_URL: http://webscraper:5001
+    networks:
+      - teste_net
     depends_on:
       - web
 
@@ -33,6 +37,8 @@ services:
       - "5001:5001"
     environment:
       WEB_URL: http://web:5000/home
+    networks:
+      - teste_net
     depends_on:
       - web
 
@@ -43,9 +49,15 @@ services:
       POSTGRES_USER: postgres
     ports:
       - "5432:5432"
+    networks:
+      - teste_net
     volumes:
       - postgres-db:/var/lib/postgresql/data
       - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+networks:
+  teste_net:
+    driver: bridge
 
 volumes:
   postgres-db:

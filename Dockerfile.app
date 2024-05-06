@@ -41,6 +41,6 @@ COPY ./web/ /app/
 
 EXPOSE 5000
 # Set the user to run the application
-USER appuser
+#USER appuser
 
-ENTRYPOINT ["gunicorn","--bind", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn","--bind", "0.0.0.0:5000", "app:app"]
