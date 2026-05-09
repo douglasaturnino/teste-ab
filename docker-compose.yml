@@ -7,7 +7,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db/postgres
+      DATABASE_URL: postgresql+psycopg2://postgress:postgress@db/postgress
     depends_on:
       - db
 
@@ -37,14 +37,14 @@ services:
       - web
 
   db:
-    image: postgres
+    image: postgres:18
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgress
+      POSTGRES_USER: postgress
     ports:
       - "5432:5432"
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres-db:/var/lib/postgresql/18/docker
       - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
 volumes:
