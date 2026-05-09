@@ -1,38 +1,30 @@
-[tool.poetry]
-name = "james"
+[project]
+name = "pa-james"
 version = "0.1.0"
-description = ""
-authors = ["Douglas Saturnino <douglasaturnino@gmail.com>"]
+description = "Add your description here"
 readme = "README.md"
-package-mode = false
+requires-python = "==3.10.6"
+dependencies = [
+    "flask>=3.0.0",
+    "pandas>=2.0.3",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10.6,<3.13"
-pandas = "^2.0.3"
-flask = "^3.0.0"
-
-
-[tool.poetry.group.streamlit.dependencies]
-streamlit = "^1.36.0"
-scipy = "^1.13.1"
-
-
-[tool.poetry.group.webscraper.dependencies]
-selenium = "^4.21.0"
-numpy = "^2.0.0"
-webdriver-manager = "^4.0.1"
-flask = "^3.0.3"
-gunicorn = "^22.0.0"
-
-
-[tool.poetry.group.web.dependencies]
-pandas = "^2.2.2"
-sqlalchemy = "^2.0.31"
-psycopg2-binary = "^2.9.9"
-python-dotenv = "^1.0.1"
-flask = "^3.0.3"
-gunicorn = "^22.0.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+streamlit = [
+    "scipy>=1.13.1",
+    "streamlit>=1.36.0",
+]
+webscraper = [
+    "selenium>=4.21.0",
+    "numpy>=2.0.0",
+    "webdriver-manager>=4.0.1",
+    "flask>=3.0.3",
+    "gunicorn>=22.0.0",
+]
+web = [
+    "sqlalchemy>=2.0.31",
+    "psycopg2-binary>=2.9.9",
+    "python-dotenv>=1.0.1",
+    "flask>=3.0.3",
+    "gunicorn>=22.0.0",
+]
