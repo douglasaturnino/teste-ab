@@ -1,18 +1,26 @@
 import os
+from pathlib import Path
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from pathlib import Path
+
+from infra.configs.base import Base
 
 
 class DBConnectionHandler:
     def __init__(self):
-        url = os.getenv('DATABASE_URL')
+        url = os.getenv(
+            "DATABASE_URL",
+            "postgresql+psycopg2://postgress:postgress@localhost/postgress",
+        )
         self.__connection_string = url
         self.__engine = self.__create_database_engine()
+        Base.metadata.create_all(self.__engine)
         self.session = None
 
     def __create_database_engine(self):
         engine = create_engine(self.__connection_string)
+
         return engine
 
     def get_engine(self):
